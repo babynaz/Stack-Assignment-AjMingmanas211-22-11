@@ -4,50 +4,65 @@
 #include "node.h"
 #include <iostream>
 
+typedef NODE* NodePtr;
+
 class Stack {
 private:
-	Node* top = nullptr;
-
+    NodePtr top;
+    int size;
 public:
-	void pop();
-	void push(int);
-	bool empty();
-	int getTop();
-	void print();
+    Stack(NodePtr = nullptr);
+    ~Stack();
+    int pop();
+    void push(char);
 };
 
-bool Stack::empty() {
-	return this->top == nullptr;
+Stack::Stack(NodePtr t) {
+    if (t) {
+        top = t;
+        size = 1;
+    }
+    else {
+        top = nullptr;
+        size = 0;
+    }
 }
 
-int Stack::getTop() {
-	return this->empty() ? 0 : this->top->value;
+void Stack::push(char x) {
+    NodePtr new_node = new NODE(x);
+    if (new_node) {
+        new_node->set_next(top);
+        top = new_node;
+        ++size;
+    }
+    else {
+        std::cout << "No memory available for new nodes" << std::endl;
+    }
 }
 
-void Stack::push(int n) {
-	Node* newNode = new Node(n);
+int Stack::pop() {
+    NodePtr t = top;
+    int value;
+    if (t) {
+        value = t->get_value();
+        top = t->get_next();
+        --size;
+        delete t;
+        return value;
+    }
 
-	if (this->top == nullptr) {
-		this->top = newNode;
-		return;
-	}
-	newNode->next = this->top;
-	this->top = newNode;
+    std::cout << "Stack underflow" << std::endl;
+    return 0;
 }
 
-void Stack::pop() {
-	if (this->top == nullptr)
-		return;
-
-	Node* temp = this->top;
-	this->top = this->top->next;
-	delete temp;
+Stack::~Stack() {
+    std::cout << "Clearing all stacks" << std::endl;
+    NodePtr t = top;
+    while (top) {
+        top = top->get_next();
+        delete t;
+        t = top;
+    }
 }
 
-void Stack::print() {
-	for (Node* temp = this->top; temp != nullptr; temp = temp->next)
-		std::cout << temp->value << "->";
-	std::cout << "X" << std::endl;
-}
-
-#endif
+#endif 

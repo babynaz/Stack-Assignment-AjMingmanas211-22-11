@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+using namespace std;
+
 #include "stack.h"
 
 bool correctPair(char a, char b) {
@@ -15,7 +17,7 @@ bool correctPair(char a, char b) {
 
 int bracket(string str) {
 	Stack stack;
-	for(int i=0; i<str.size(); i++) {
+	for(int i=0;i<str.size();i++) {
 		switch(str[i]) {
 			case '(':
 			case '[':
@@ -39,24 +41,23 @@ int bracket(string str) {
 	return (int)(!stack.empty());
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char * argv[]) {
 
-	for(int i = 1; i < argc; i++) {
+	// cin >> str;
+	for(int i=1;i<argc;i++)
+
 		switch(bracket(argv[i])) {
 			case 0:
-				std::cout << "Correct" << std::endl;
+				cout << "Correct" << endl;
 				break;
 			case 1:
-				std::cout << "Too many opening brackets" << std::endl;
+				cout << "Too many opening brackets" << endl;
 				break;
 			case -1:
-				std::cout << "Too many closing brackets" << std::endl;
+				cout << "Too many closing brackets" << endl;
 				break;
 			case 2147483647:
-				std::cout << "Wrong match" << std::endl;
+				cout << "Wrong match" << endl;
 				break;
 		}
-	}
-
-	return 0;
 }
